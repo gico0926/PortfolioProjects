@@ -120,7 +120,7 @@ select dea.continent,
 FROM Portfolio..CovidDeaths as dea
 JOIN Portfolio..CovidVaccinations as vac
     ON dea.date = vac.date
-	and dea.location = vac.location
+    and dea.location = vac.location
 WHERE dea.continent is not null
 )
 SELECT date, location, population, vaccinated, vaccinated/population*100 as vaccination_percentage
