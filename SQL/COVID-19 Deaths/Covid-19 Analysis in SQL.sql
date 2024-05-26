@@ -76,9 +76,9 @@ ORDER BY TotalDeathCount DESC
 --Indicate the daily cases and deaths throughout the world.
 --
 Select date, 
-       SUM(new_cases) as global_dailycases, 
-	   SUM(cast(new_deaths as int)) as global_dailydeaths,
-	   SUM(cast(new_deaths as int))/SUM(new_cases)*100 as Deathpercentage
+	SUM(new_cases) as global_dailycases, 
+	SUM(cast(new_deaths as int)) as global_dailydeaths,
+	SUM(cast(new_deaths as int))/SUM(new_cases)*100 as Deathpercentage
 FROM Portfolio..CovidDeaths
 WHERE continent is not null
 GROUP BY date
@@ -87,8 +87,8 @@ ORDER BY 1,2
 --Indicate Covid's DeathPercentage globaly is around 2.11%
 --
 Select SUM(new_cases) as global_dailycases, 
-	   SUM(cast(new_deaths as int)) as global_dailydeaths,
-	   SUM(cast(new_deaths as int))/SUM(new_cases)*100 as Deathpercentage
+	SUM(cast(new_deaths as int)) as global_dailydeaths,
+	SUM(cast(new_deaths as int))/SUM(new_cases)*100 as Deathpercentage
 FROM Portfolio..CovidDeaths
 WHERE continent is not null
 ORDER BY 1,2
@@ -102,8 +102,7 @@ ORDER BY 1,2
 select *
 FROM Portfolio..CovidDeaths as dea
 JOIN Portfolio..CovidVaccinations as vac
-    ON dea.date = vac.date
-	and dea.location = vac.location
+    ON dea.date = vac.date and dea.location = vac.location
 --
 
 --Looking at Total Population vs Total Vaccination
@@ -113,14 +112,14 @@ as
 (
 select dea.continent, 
        dea.location, 
-	   dea.date, 
-	   dea.population, 
-	   vac.new_vaccinations,
-	   SUM(cast(vac.new_vaccinations as int)) OVER (Partition by dea.location Order by dea.location, dea.date) as vaccinated
+	dea.date, 
+	dea.population, 
+	vac.new_vaccinations,
+	SUM(cast(vac.new_vaccinations as int)) OVER (Partition by dea.location Order by dea.location, dea.date
+) as vaccinated
 FROM Portfolio..CovidDeaths as dea
 JOIN Portfolio..CovidVaccinations as vac
-    ON dea.date = vac.date
-	and dea.location = vac.location
+    ON dea.date = vac.date and dea.location = vac.location
 WHERE dea.continent is not null
 )
 SELECT date, location, population, vaccinated, vaccinated/population*100 as vaccination_percentage
@@ -145,14 +144,13 @@ vaccinated numeric,
 INSERT INTO #PercentPopulationVaccinated
 select dea.continent, 
        dea.location, 
-	   dea.date, 
-	   dea.population, 
-	   vac.new_vaccinations,
-	   SUM(cast(vac.new_vaccinations as int)) OVER (Partition by dea.location Order by dea.location, dea.date) as vaccinated
+	dea.date, 
+	dea.population, 
+	vac.new_vaccinations,
+	SUM(cast(vac.new_vaccinations as int)) OVER (Partition by dea.location Order by dea.location, dea.date) as vaccinated
 FROM Portfolio..CovidDeaths as dea
 JOIN Portfolio..CovidVaccinations as vac
-    ON dea.date = vac.date
-	and dea.location = vac.location
+    ON dea.date = vac.date and dea.location = vac.location
 WHERE dea.continent is not null
 
 SELECT *, vaccinated/population*100 as vaccination_percentage
@@ -167,14 +165,13 @@ as
 (
 select dea.continent, 
        dea.location, 
-	   dea.date, 
-	   dea.population, 
-	   vac.new_vaccinations,
-	   SUM(cast(vac.new_vaccinations as int)) OVER (Partition by dea.location Order by dea.location, dea.date) as vaccinated
+	dea.date, 
+	dea.population, 
+	vac.new_vaccinations,
+	SUM(cast(vac.new_vaccinations as int)) OVER (Partition by dea.location Order by dea.location, dea.date) as vaccinated
 FROM Portfolio..CovidDeaths as dea
 JOIN Portfolio..CovidVaccinations as vac
-    ON dea.date = vac.date
-	and dea.location = vac.location
+    ON dea.date = vac.date and dea.location = vac.location
 WHERE dea.continent is not null
 )
 SELECT date, location, population, vaccinated, vaccinated/population*100 as vaccination_percentage
@@ -184,8 +181,8 @@ WHERE vaccinated/population*100 is not null
 CREATE VIEW Global_DailyCases AS
 Select date, 
        SUM(new_cases) as global_dailycases, 
-	   SUM(cast(new_deaths as int)) as global_dailydeaths,
-	   SUM(cast(new_deaths as int))/SUM(new_cases)*100 as Deathpercentage
+	SUM(cast(new_deaths as int)) as global_dailydeaths,
+	SUM(cast(new_deaths as int))/SUM(new_cases)*100 as Deathpercentage
 FROM Portfolio..CovidDeaths
 WHERE continent is not null
 GROUP BY date
