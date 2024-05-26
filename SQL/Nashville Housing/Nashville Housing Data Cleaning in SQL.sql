@@ -129,8 +129,7 @@ CASE when SoldAsVacant = 'Y' then 'Yes'
 WITH RowNumCTE as 
 	(
 	SELECT *,
-	ROW_NUMBER() OVER (
-	PARTITION BY ParcelID,
+	ROW_NUMBER() OVER (PARTITION BY ParcelID,
 	PropertyAddress,
 	SalePrice,
 	SaleDate,
