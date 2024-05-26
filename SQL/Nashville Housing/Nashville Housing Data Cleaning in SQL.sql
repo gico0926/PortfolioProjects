@@ -126,16 +126,17 @@ CASE when SoldAsVacant = 'Y' then 'Yes'
 
 --Remove Duplicates (!not on raw data!)
 --
-WITH RowNumCTE as (
-SELECT *,
-    ROW_NUMBER() OVER (
+WITH RowNumCTE as 
+	(
+	SELECT *,
+	ROW_NUMBER() OVER (
 	PARTITION BY ParcelID,
-	             PropertyAddress,
-				 SalePrice,
-				 SaleDate,
-				 LegalReference
-				 ORDER BY UniqueID
-				 ) as row_num
+	PropertyAddress,
+	SalePrice,
+	SaleDate,
+	LegalReference
+	ORDER BY UniqueID
+	) as row_num
 FROM Portfolio..NashvilleHousing
 )
 SELECT *
