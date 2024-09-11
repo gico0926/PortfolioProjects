@@ -1,3 +1,9 @@
+/*
+
+SQL Data Exploration
+
+*/
+
 
 --Check the overall data on CovidDeaths
 --
